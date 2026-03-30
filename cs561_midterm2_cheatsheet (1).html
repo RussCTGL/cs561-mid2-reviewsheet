@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS 561 — Midterm 2 Complete Cheat Sheet</title>
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Georgia', serif;
+  background: #fafaf7;
+  color: #1a1a18;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 20px 24px 40px;
+}
+/* ── Typography ── */
+h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 2px; }
+h2 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #111; font-family: 'Georgia', serif; }
+h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: #888; margin: 10px 0 5px; }
+p, li { font-size: 12px; color: #333; line-height: 1.7; }
+li { margin-bottom: 2px; }
+ul { padding-left: 14px; }
+strong { font-weight: 700; color: #111; }
+/* ── Layout ── */
+.meta { font-size: 11px; color: #999; margin-bottom: 20px; border-bottom: 2px solid #111; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
+.scope-bar { background: #111; color: #fff; font-size: 11px; padding: 6px 12px; border-radius: 5px; margin-bottom: 18px; font-family: 'Courier New', monospace; }
+.session-block { margin-bottom: 22px; }
+.session-header { background: #111; color: #fff; padding: 5px 10px; font-size: 11px; font-weight: 700; letter-spacing: .5px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; }
+.session-body { border: 1px solid #111; border-top: none; border-radius: 0 0 5px 5px; padding: 12px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+/* ── Cards ── */
+.card { background: #fff; border: 1px solid #e0e0d8; border-radius: 6px; padding: 10px 12px; }
+.card.hot { border-left: 3px solid #c0392b; }
+.card.med { border-left: 3px solid #e67e22; }
+.card.low { border-left: 3px solid #27ae60; }
+/* ── Code / Formula ── */
+.mono, code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  background: #f4f4f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 9px;
+  display: block;
+  margin: 5px 0;
+  line-height: 1.8;
+  color: #1a1a18;
+  white-space: pre;
+}
+code.inline { display: inline; padding: 1px 5px; margin: 0; white-space: nowrap; }
+/* ── Tags ── */
+.tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-right: 3px; vertical-align: middle; }
+.tag-r { background: #fde8e8; color: #c0392b; }
+.tag-o { background: #fef0e0; color: #e67e22; }
+.tag-g { background: #e8f8ee; color: #27ae60; }
+.tag-b { background: #e8f0fe; color: #1a56db; }
+.tag-p { background: #f0eeff; color: #5b4fcf; }
+.tag-t { background: #e6f7f2; color: #0f6e56; }
+/* ── Alerts ── */
+.alert { border-radius: 4px; padding: 7px 10px; font-size: 11px; margin: 7px 0; line-height: 1.6; }
+.alert-r { background: #fde8e8; border-left: 3px solid #c0392b; color: #7b1a1a; }
+.alert-g { background: #e8f8ee; border-left: 3px solid #27ae60; color: #145229; }
+.alert-b { background: #e8f0fe; border-left: 3px solid #1a56db; color: #1a3a7b; }
+.alert-o { background: #fef0e0; border-left: 3px solid #e67e22; color: #7b4010; }
+/* ── Table ── */
+table { width: 100%; border-collapse: collapse; font-size: 11px; margin: 6px 0; }
+th { background: #f4f4f0; font-weight: 700; padding: 5px 8px; text-align: left; border: 1px solid #ddd; }
+td { padding: 4px 8px; border: 1px solid #e8e8e0; vertical-align: top; }
+tr:nth-child(even) td { background: #fafaf7; }
+/* ── TOC ── */
+.toc { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.toc a { font-size: 11px; padding: 3px 8px; background: #f4f4f0; border: 1px solid #ddd; border-radius: 3px; text-decoration: none; color: #333; }
+.toc a:hover { background: #111; color: #fff; }
+/* ── Divider ── */
+.divider { border: none; border-top: 1px solid #e8e8e0; margin: 10px 0; }
+/* ── TF table ── */
+.tf-row { display: grid; grid-template-columns: 24px 36px 1fr; gap: 4px; margin-bottom: 4px; align-items: start; font-size: 11px; }
+.tf-t { background: #e8f8ee; color: #145229; font-weight: 700; padding: 1px 5px; border-radius: 3px; text-align: center; }
+.tf-f { background: #fde8e8; color: #7b1a1a; font-weight: 700; padding: 1px 5px; border-radius: 3px; text-align: center; }
+.tf-q { color: #333; line-height: 1.6; }
+.tf-why { color: #888; font-size: 10px; font-style: italic; }
+/* ── Print ── */
+@media print {
+  body { padding: 8px; font-size: 11px; background: #fff; }
+  .session-block { page-break-inside: avoid; }
+  .card { page-break-inside: avoid; }
+  .toc { display: none; }
+  .scope-bar { background: #111 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .session-header { background: #111 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <div>
+    <h1>CS 561 — Midterm 2 Complete Cheat Sheet</h1>
+    <div style="font-size:12px;color:#666;margin-top:3px;">CSCI 561 · Spring 2026 · Artificial Intelligence</div>
+  </div>
+  <div style="text-align:right;font-size:11px;color:#999;">Sessions 9–15 · Logic translation always assumed</div>
+</div>
+
+<div class="scope-bar">
+  SCOPE: Session 9 slide 66 → end of Session 14-15b &nbsp;|&nbsp; FOL translation assumed throughout &nbsp;|&nbsp; Fuzzy logic NOT covered in 2026
+</div>
+
+<div class="toc">
+  <a href="#s9">S9: Resolution & Chaining</a>
+  <a href="#s10">S10: Reasoning Systems & Planning</a>
+  <a href="#s11ml">S11: ML Fundamentals</a>
+  <a href="#s11svm">S11: SVM</a>
+  <a href="#s11dt">S11: Decision Trees</a>
+  <a href="#s12">S12: Neural Networks</a>
+  <a href="#s13">S13: CNNs</a>
+  <a href="#s14">S14-15: Transformers</a>
+  <a href="#fol">FOL Translation</a>
+  <a href="#tf">T/F Traps</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 9 (slide 66+) -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s9">
+<div class="session-header"><span>SESSION 9 — Inference in FOL (slide 66+: Backward Chaining, Completeness, Resolution)</span><span>⚠ EXAM CORE</span></div>
+<div class="session-body">
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card hot">
+    <h2>Backward Chaining vs Forward Chaining</h2>
+    <table>
+      <tr><th></th><th>Forward</th><th>Backward</th></tr>
+      <tr><td><strong>Direction</strong></td><td>Facts → Goal</td><td>Goal → Facts</td></tr>
+      <tr><td><strong>Search</strong></td><td>Breadth-first (top), depth-first (sub)</td><td>Depth-first throughout</td></tr>
+      <tr><td><strong>Derives</strong></td><td>Everything possible</td><td>Only what's needed</td></tr>
+      <tr><td><strong>Best for</strong></td><td>Broad KB, many facts</td><td>Specific query, large evidence base</td></tr>
+      <tr><td><strong>Inferences</strong></td><td>All applicable rules fire</td><td>Only query-relevant rules</td></tr>
+    </table>
+    <div class="alert alert-r" style="margin-top:6px;"><strong>Trap:</strong> "Backward chaining is breadth-first" = FALSE. Backward = depth-first throughout.</div>
+  </div>
+  <div class="card hot">
+    <h2>Completeness &amp; Gödel</h2>
+    <ul>
+      <li><strong>GMP incomplete:</strong> requires Horn form — negation breaks it.</li>
+      <li><strong>Gödel completeness (1930):</strong> any sentence entailed by KB <em>can</em> be proved from it.</li>
+      <li><strong>Resolution:</strong> the complete inference procedure — works on any sentence.</li>
+      <li><strong>Semi-decidability:</strong> can always prove TRUE things. Cannot always prove something is NOT entailed (may loop forever — Halting Problem analog).</li>
+      <li><strong>Entailment:</strong> KB ⊨ α iff α is true in <em>ALL</em> worlds where KB is true. (NOT "some" — that's just consistency.)</li>
+    </ul>
+    <div class="alert alert-r"><strong>Trap:</strong> "entails iff true in some worlds" = FALSE. Must be ALL worlds.</div>
+  </div>
+</div>
+
+<div class="card hot" style="margin-bottom:10px;">
+  <h2>CNF Conversion — 7 Steps (exam always asks step-by-step)</h2>
+  <div class="grid2">
+    <div>
+<code>Step 1: Eliminate ⇒
+  A⇒B  →  ¬A∨B
+
+Step 2: Push ¬ inward (De Morgan's)
+  ¬(A∧B) → ¬A∨¬B
+  ¬(A∨B) → ¬A∧¬B
+  ¬∀x φ  → ∃x ¬φ
+  ¬∃x φ  → ∀x ¬φ
+
+Step 3: Standardize variables apart
+  Each quantifier gets a unique var name</code>
+    </div>
+    <div>
+<code>Step 4: Skolemize (eliminate ∃)
+  ∃y (no outer ∀)   → constant k
+  ∃y inside ∀x      → function g(x)
+  ∃y inside ∀x,∀z   → function g(x,z)
+
+Step 5: Drop ∀ (now implicit)
+
+Step 6: Distribute ∨ over ∧
+  A∨(B∧C) → (A∨B)∧(A∨C)
+
+Step 7: Split into separate clauses
+  Re-standardize variable names per clause</code>
+    </div>
+  </div>
+</div>
+
+<div class="card hot" style="margin-bottom:10px;">
+  <h2>Resolution / Refutation Proof — Method</h2>
+  <div class="grid2">
+    <div>
+      <h3>Algorithm</h3>
+      <ol style="padding-left:16px;font-size:12px;">
+        <li>Convert all KB sentences to CNF</li>
+        <li>Negate the goal G → add ¬G to KB</li>
+        <li>Resolve pairs sharing complementary literals</li>
+        <li>Apply unification σ at each resolution step</li>
+        <li>If [] (empty clause) derived → contradiction → G proved</li>
+        <li>If no new resolvents → G is not entailed</li>
+      </ol>
+      <div class="alert alert-b" style="margin-top:6px;">Always label every substitution σ = {X/a} at each step. Exams deduct for missing substitutions.</div>
+    </div>
+    <div>
+      <h3>Worked example: prove sneeze(Liz)</h3>
+<code>KB in CNF:
+(1) ¬allergies(X) ∨ sneeze(X)
+(2) ¬cat(Y) ∨ ¬allergic-to(X,Y) ∨ allergies(X)
+(3) cat(Felix)
+(4) allergic-to(Liz, Felix)
+(5) ¬sneeze(Liz)   ← negated goal
+
+Resolve (2)+(3): σ={Y/Felix}
+→ (6) ¬allergic-to(X,Felix) ∨ allergies(X)
+Resolve (6)+(4): σ={X/Liz}
+→ (7) allergies(Liz)
+Resolve (1)+(7): σ={X/Liz}
+→ (8) sneeze(Liz)
+Resolve (8)+(5): → []  ✓ QED</code>
+    </div>
+  </div>
+</div>
+
+<div class="card med">
+  <h2>Unification Quick Reference</h2>
+  <div class="grid2">
+    <div>
+<code>unify(P(a,X), P(a,b))        → {X/b}       ✓
+unify(P(a,X), P(Y,b))        → {Y/a,X/b}   ✓
+unify(P(a,X), P(Y,f(a)))     → {Y/a,X/f(a)}✓
+unify(P(a,X), P(X,b))        → FAILURE     ✗ (X=a AND X=b)
+unify(Sells(Bob,x),Sells(x,y))→{x/Bob,y=?} ✗ (x=Bob AND x=Sells arg)
+unify(Sells(Bob,x),Sells(y,c))→{x/c,y/Bob} ✓ (different vars!)
+unify(a,a)                   → {}          ✓ (empty σ, already =)</code>
+      <div class="alert alert-r">σ is global — one conflict kills entire unification. Standardize apart: rename same var name in P and Q before unifying.</div>
+    </div>
+    <div>
+      <h3>3 Rules</h3>
+      <ul>
+        <li><strong>Same constant:</strong> σ = {} (nothing to do)</li>
+        <li><strong>One side is variable:</strong> bind it to the other side</li>
+        <li><strong>Occurs check:</strong> never x → f(x) (variable can't bind to term containing itself)</li>
+      </ul>
+      <h3>Complementary literals</h3>
+      <p>P(a) and ¬P(a) are complementary. Resolving them produces [].</p>
+      <p>P(X) and ¬P(a) resolve with σ={X/a} → [].</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /session-body -->
+</div><!-- /session-block -->
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 10 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s10">
+<div class="session-header"><span>SESSION 10 — Logical Reasoning Systems &amp; Planning</span><span>MEDIUM PRIORITY</span></div>
+<div class="session-body">
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card med">
+    <h2>4 Reasoning System Types</h2>
+    <table>
+      <tr><th>System</th><th>FOL?</th><th>Method</th><th>Key feature</th></tr>
+      <tr><td><strong>Theorem provers</strong> (OTTER)</td><td>Full FOL</td><td>Resolution</td><td>Independent of KB form; best-first search by clause weight</td></tr>
+      <tr><td><strong>Logic programming</strong> (Prolog)</td><td>Horn only</td><td>Backward chaining</td><td>Negation as failure; incomplete; clause order matters</td></tr>
+      <tr><td><strong>Semantic networks</strong></td><td>Subset</td><td>Inheritance</td><td>Nodes=objects, edges=relations; is-a gives inheritance</td></tr>
+      <tr><td><strong>Description logics</strong></td><td>Subset</td><td>Classification</td><td>Basis of OWL2; medicine, genomics, engineering</td></tr>
+    </table>
+  </div>
+  <div class="card med">
+    <h2>Prolog</h2>
+<code>parent(alice, jim).        % fact
+grandparent(X,Z) :-        % rule
+  parent(X,Y), parent(Y,Z).
+?- parent(jim, Who).       % query
+Who = tim ; dave ; sharon  % ; = next answer</code>
+    <ul>
+      <li>Variables = UPPERCASE; constants = lowercase</li>
+      <li><code class="inline">:-</code> means "if"; comma = AND</li>
+      <li><strong>Negation as failure:</strong> NOT P succeeds if P can't be proved</li>
+      <li><strong>Closed-world assumption:</strong> unprovable = false</li>
+      <li><strong>Not complete</strong> — can loop on circular rules</li>
+      <li>Clause order affects depth-first search path</li>
+    </ul>
+    <div class="alert alert-r"><strong>Trap:</strong> "Prolog uses resolution" = FALSE. Uses backward chaining with GMP on Horn clauses.</div>
+  </div>
+</div>
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card med">
+    <h2>STRIPS Planning</h2>
+    <p>State = conjunction of ground literals. Goal = literals to satisfy. <strong>Frame assumption:</strong> everything not mentioned is unchanged.</p>
+<code>Action: Move(box, from, to)
+Precond:  On(box,from) ∧ Clear(box) ∧ Clear(to)
+Add list: On(box,to) ∧ Clear(from)    ← become TRUE
+Del list: On(box,from) ∧ Clear(to)    ← become FALSE</code>
+    <table style="margin-top:6px;">
+      <tr><th>Planner type</th><th>Direction</th><th>Problem</th></tr>
+      <tr><td>Progression</td><td>Start → Goal (forward)</td><td>High branching factor</td></tr>
+      <tr><td>Regression</td><td>Goal → Start (backward)</td><td>Better — fewer ops apply to goal</td></tr>
+      <tr><td>Partial-order (POP)</td><td>Plan space</td><td>Best — least commitment</td></tr>
+    </table>
+  </div>
+  <div class="card med">
+    <h2>Partial-Order Planning (POP)</h2>
+    <p>A plan = {steps, ordering constraints A≺B, variable bindings, causal links A→<sup>c</sup>→B}</p>
+    <p><strong>Least commitment:</strong> only add ordering constraints when forced.</p>
+    <hr class="divider">
+    <h3>Clobbering</h3>
+    <p>Step C <em>clobberers</em> causal link A→<sup>c</sup>→B if C deletes c and could execute between A and B.</p>
+    <h3>Fix: promotion or demotion</h3>
+    <ul>
+      <li><strong>Promotion:</strong> force C <em>after</em> B (protect by ordering C later)</li>
+      <li><strong>Demotion:</strong> force C <em>before</em> A (protect by ordering C earlier)</li>
+    </ul>
+    <div class="alert alert-r"><strong>Trap:</strong> "Demotion puts clobberer after the link" = FALSE. Demotion puts it BEFORE A.</div>
+    <div class="alert alert-g">POP advantage: unordered steps that don't conflict stay unordered — maximally flexible plan.</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 11: ML Fundamentals -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s11ml">
+<div class="session-header"><span>SESSION 11 — ML Fundamentals</span><span>MEDIUM PRIORITY</span></div>
+<div class="session-body">
+
+<div class="grid3" style="margin-bottom:10px;">
+  <div class="card">
+    <h2><span class="tag tag-b">Supervised</span></h2>
+    <p>Correct label for every example. Learn f: x→y. <br><em>Examples:</em> SVM, decision trees, neural nets.</p>
+  </div>
+  <div class="card">
+    <h2><span class="tag tag-t">Unsupervised</span></h2>
+    <p>No labels. Find structure in data.<br><em>Examples:</em> k-means, PCA, autoencoders.</p>
+  </div>
+  <div class="card">
+    <h2><span class="tag tag-o">Reinforcement</span></h2>
+    <p>Occasional rewards. Learn by trial and error.<br><em>Examples:</em> game agents, robotics, DQN.</p>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h2>Inductive Learning Setup</h2>
+    <ul>
+      <li><strong>Target function f</strong> — the unknown true function</li>
+      <li><strong>Example:</strong> a pair (x, f(x))</li>
+      <li><strong>Hypothesis h:</strong> consistent if h(x) = f(x) on all training examples</li>
+      <li><strong>Goal:</strong> find h ≈ f that generalizes to unseen examples</li>
+      <li><strong>Ockham's razor:</strong> prefer simplest consistent hypothesis</li>
+    </ul>
+    <div class="alert alert-b">Deductive learning (sessions 9–10) = guaranteed correct. Inductive = not guaranteed — relies on <strong>principle of uniformity</strong> (future resembles past).</div>
+  </div>
+  <div class="card">
+    <h2>Hypothesis Space Size</h2>
+    <ul>
+      <li>n Boolean attributes → <strong>2<sup>2<sup>n</sup></sup></strong> possible decision trees</li>
+      <li>n=6 → over 18 quintillion trees</li>
+      <li>Conjunctive hypotheses only → 3<sup>n</sup> (positive / negative / absent)</li>
+    </ul>
+    <p style="margin-top:6px;">Bigger space = more expressive but harder to search and more likely to overfit. Tradeoff between expressiveness and generalization.</p>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 11: SVM -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s11svm">
+<div class="session-header"><span>SESSION 11 — Support Vector Machines (SVM)</span><span>⚠ EXAM CORE — MATH HEAVY</span></div>
+<div class="session-body">
+
+<div class="card hot" style="margin-bottom:10px;">
+  <h2>Core Idea + Optimization</h2>
+  <div class="grid2">
+    <div>
+      <p>Find hyperplane <strong>w·x + b = 0</strong> that separates two classes AND maximizes the margin (distance to nearest points = support vectors).</p>
+<code>Primal problem:
+  minimize  ½||w||²
+  s.t.  yᵢ(w·xᵢ + b) ≥ 1  ∀i
+
+Margin width = 2/||w||
+Maximize margin = Minimize ||w||</code>
+      <div class="alert alert-b"><strong>Support vectors:</strong> points on the margin boundary with αᵢ &gt; 0. All other points have αᵢ = 0 and don't affect the classifier.</div>
+    </div>
+    <div>
+<code>Lagrangian dual form:
+  L(α) = Σαᵢ − ½ΣᵢΣₖ αᵢαₖyᵢyₖ(xᵢ·xₖ)
+  s.t.  Σαᵢyᵢ = 0,  αᵢ ≥ 0
+
+Optimal weight vector:
+  w* = Σ αᵢyᵢxᵢ  (sum over support vectors)
+
+Bias (from any support vector s):
+  b = 1/yₛ − w*·xₛ</code>
+      <p style="margin-top:6px;font-size:12px;">Key: dual form only uses <strong>dot products</strong> xᵢ·xₖ → enables the kernel trick.</p>
+    </div>
+  </div>
+</div>
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card hot">
+    <h2>Kernel Trick</h2>
+    <p>SVM only needs dot products. Replace xᵢ·xₖ with K(xᵢ,xₖ) = φ(xᵢ)·φ(xₖ) to implicitly map to higher-dimensional space without computing φ explicitly.</p>
+<code>Linear:     K(x,z) = x·z
+Polynomial: K(x,z) = (1 + x·z)ⁿ
+RBF/Gauss:  K(x,z) = exp(−||x−z||²/2σ²)
+  σ small → wiggly complex boundary
+  σ large → smoother boundary</code>
+    <p style="font-size:11px;color:#888;margin-top:5px;">Poly n=2 with x=[x₁,x₂] maps to: [x₁², x₂², √2·x₁x₂, √2x₁, √2x₂, 1]</p>
+  </div>
+  <div class="card hot">
+    <h2>Soft Margin (non-separable data)</h2>
+<code>Constraint relaxed: 0 ≤ αᵢ ≤ C
+
+Large C → narrow margin, penalizes errors
+           (tries to classify everything correctly)
+Small C → wide margin, tolerates misclassification
+           (more robust, less overfitting)</code>
+    <h3>5 Key Facts to Memorize</h3>
+    <ol style="padding-left:14px;font-size:11px;">
+      <li>Classifier depends only on <strong>support vectors</strong>, not all training points</li>
+      <li>Learning &amp; prediction both use only <strong>dot products</strong> → enables kernels</li>
+      <li>Max margin → <strong>lower hypothesis variance</strong></li>
+      <li><strong>Single global maximum</strong> — no local optima</li>
+      <li>CV error ≈ <strong>#SVs / #training samples</strong></li>
+    </ol>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:0;">
+  <h2>SVM Classifier (at test time)</h2>
+<code>h(u) = sign( Σᵢ αᵢyᵢK(xᵢ,u) + b )
+         sum is over support vectors only</code>
+  <p>Only support vectors contribute — all others have αᵢ = 0 and drop out of the sum.</p>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 11: Decision Trees -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s11dt">
+<div class="session-header"><span>SESSION 11 — Decision Tree Learning (ID3)</span><span>⚠ EXAM CORE — CALCULATION REQUIRED</span></div>
+<div class="session-body">
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card hot">
+    <h2>Entropy &amp; Information Gain</h2>
+<code>Entropy:
+H(S) = −Σ pᵢ log₂(pᵢ)
+
+H = 0 : perfectly pure (all same class)
+H = 1 : maximally impure (50/50 split)
+
+Example — 8T, 4F (total 12):
+H = −(8/12)log₂(8/12) − (4/12)log₂(4/12)
+  = −(2/3)log₂(2/3) − (1/3)log₂(1/3)
+
+Information Gain:
+Gain(S, A) = H(S) − Σᵥ (|Sᵥ|/|S|)·H(Sᵥ)
+
+Pick attribute A with MAXIMUM Gain</code>
+    <div class="alert alert-b">Exam tip: always write formula with numbers plugged in. "You do not need to compute the final numeric result" is common exam wording.</div>
+  </div>
+  <div class="card hot">
+    <h2>ID3 Algorithm</h2>
+    <ol style="padding-left:14px;font-size:12px;">
+      <li>Compute Gain for all remaining attributes</li>
+      <li>Split on attribute with highest Gain</li>
+      <li>Recurse on each branch with its subset of examples</li>
+      <li>Stop when: node is pure (all same class), or no attributes left, or no examples left</li>
+    </ol>
+    <h3>Restaurant example (from slides)</h3>
+    <table>
+      <tr><th>Attribute</th><th>Entropy decrease</th><th>Winner?</th></tr>
+      <tr><td>Patrons</td><td>0.16</td><td>✓ Best</td></tr>
+      <tr><td>Price</td><td>0.07</td><td></td></tr>
+      <tr><td>WaitEstimate</td><td>0.06</td><td></td></tr>
+      <tr><td>Reservation</td><td>0.01</td><td></td></tr>
+      <tr><td>Type, Fri/Sat</td><td>0.00</td><td>✗ Useless</td></tr>
+    </table>
+    <div class="alert alert-g">None/Some/Full gives pure branches: None→all F, Some→all T, Full→mixed. Perfect first split.</div>
+  </div>
+</div>
+
+<div class="card hot" style="margin-bottom:10px;">
+  <h2>Entropy — Full Worked Calculation (SP2024 Hiking Example)</h2>
+  <div class="grid2">
+    <div>
+      <h3>Step 1 — Compute H(S) for root node</h3>
+<code>Total = 12 examples: 9 Yes, 3 No
+p(Yes) = 9/12 = 3/4
+p(No)  = 3/12 = 1/4
+
+H(S) = −(3/4)log₂(3/4) − (1/4)log₂(1/4)
+     = −(0.75)(−0.415) − (0.25)(−2)
+     = 0.311 + 0.5
+     ≈ 0.811  (exam gives this as 0.81)</code>
+      <h3>Special cases — memorize</h3>
+<code>Pure node (all same class):
+  H = 0  (e.g., 6 Yes, 0 No)
+  −(1)log₂(1) − 0 = 0
+
+50/50 split:
+  H = 1  (e.g., 3 Yes, 3 No)
+  −(0.5)log₂(0.5) − (0.5)log₂(0.5)
+  = −2 × (0.5)(−1) = 1.0</code>
+    </div>
+    <div>
+      <h3>Step 2 — Compute H for each branch of Weather</h3>
+<code>Sunny: 6 Yes, 0 No (from data table)
+  H(Sunny) = −(6/6)log₂(1) − 0
+           = 0  ← PURE NODE!
+
+Cloudy: 3 Yes, 3 No (from data table)
+  H(Cloudy) = −(3/6)log₂(1/2) − (3/6)log₂(1/2)
+            = −(0.5)(−1) − (0.5)(−1)
+            = 0.5 + 0.5 = 1.0</code>
+      <h3>Step 3 — Compute IG(Weather)</h3>
+<code>IG(Weather) = H(S) − Σ (|Sᵥ|/|S|)·H(Sᵥ)
+= 0.81 − (6/12)·H(Sunny) − (6/12)·H(Cloudy)
+= 0.81 − (0.5)(0) − (0.5)(1.0)
+= 0.81 − 0 − 0.5
+= 0.31</code>
+      <h3>Step 4 — Compare and pick</h3>
+<code>IG(ChoresToDo):
+= 0.81 − (6/12)·0.92 − (6/12)·0.65
+= 0.81 − 0.46 − 0.325 = 0.025
+
+IG(Weather) = 0.31  ← WINNER
+IG(ChoresToDo) = 0.025
+
+Weather is better: higher IG = greater
+entropy reduction = purer child nodes.</code>
+    </div>
+  </div>
+  <div class="alert alert-b" style="margin-top:8px;"><strong>Exam process:</strong> (1) Count Yes/No in each branch from the data table. (2) Plug into H formula. (3) Plug H values into Gain formula. (4) Compare Gains — pick highest. Write formula with numbers plugged in even if you can't compute the final log value.</div>
+</div>
+
+<div class="card med" style="margin-bottom:10px;">
+  <h2>log₂ Quick Reference (for exam calculations)</h2>
+  <div class="grid4">
+    <div>
+<code>log₂(1)   = 0
+log₂(1/2) = −1
+log₂(1/4) = −2
+log₂(1/8) = −3</code>
+    </div>
+    <div>
+<code>log₂(2)   =  1
+log₂(4)   =  2
+log₂(8)   =  3
+log₂(16)  =  4</code>
+    </div>
+    <div>
+<code>log₂(3/4) ≈ −0.415
+log₂(2/3) ≈ −0.585
+log₂(1/3) ≈ −1.585
+log₂(3/8) ≈ −1.415</code>
+    </div>
+    <div>
+<code>H(1/2,1/2) = 1.0
+H(1/3,2/3) ≈ 0.918
+H(1/4,3/4) ≈ 0.811
+H(1/6,5/6) ≈ 0.650</code>
+    </div>
+  </div>
+  <div class="alert alert-o" style="margin-top:6px;">The exam often gives you the entropy values (e.g. "entropy = 0.81") or only asks you to write the formula with numbers — you rarely need to compute logs from scratch. But knowing log₂(1/2) = −1 and H(pure) = 0 is essential.</div>
+</div>
+
+<div class="card med">
+  <h2>Overfitting, Validation &amp; Cross-Validation</h2>
+  <div class="grid3">
+    <div>
+      <h3>Overfitting</h3>
+      <p>One leaf per training example = consistent but doesn't generalize. Prefer simpler trees (Ockham's razor). More data → more complex hypothesis justified.</p>
+    </div>
+    <div>
+      <h3>K-Fold Cross-Validation</h3>
+      <p>Split data into k folds. Train on k-1, validate on 1. Rotate k times, average errors. More reliable than a single split. <strong>Never tune on test set</strong> ("double dipping").</p>
+    </div>
+    <div>
+      <h3>Validation vs Test Set</h3>
+      <p>Use <strong>validation set</strong> to tune hyperparameters. Use <strong>test set</strong> only once at the end to report final accuracy. Mixing them = data leakage.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 12: ANNs -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s12">
+<div class="session-header"><span>SESSION 12 — Artificial Neural Networks</span><span>⚠ EXAM CORE</span></div>
+<div class="session-body">
+
+<div class="grid3" style="margin-bottom:10px;">
+  <div class="card hot">
+    <h2>McCulloch-Pitts Neuron (1943)</h2>
+<code>y(t+1) = 1  if  Σ wᵢxᵢ(t) ≥ θ
+y(t+1) = 0  otherwise</code>
+    <ul>
+      <li>Discrete time steps, binary output</li>
+      <li><strong>Excitatory:</strong> wᵢ &gt; 0 (pushes toward firing)</li>
+      <li><strong>Inhibitory:</strong> wᵢ &lt; 0 (suppresses firing)</li>
+      <li>θ = firing threshold</li>
+      <li>Can implement AND, OR, NOT → equivalent to finite automata</li>
+    </ul>
+  </div>
+  <div class="card hot">
+    <h2>Perceptrons &amp; XOR</h2>
+    <p><strong>Single-layer perceptron</strong> = linear classifier. Can learn AND, OR, NOT (linearly separable).</p>
+    <p style="margin-top:6px;"><strong>XOR fails:</strong> (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0. No single hyperplane separates it.</p>
+    <p style="margin-top:6px;"><strong>Fix:</strong> add hidden layers (MLP) → non-linear boundaries. Each hidden layer composes the previous layer's features.</p>
+    <div class="alert alert-r" style="margin-top:6px;">Single-layer perceptron will NEVER converge on XOR — not a training problem, a fundamental representational limitation.</div>
+  </div>
+  <div class="card low">
+    <h2>Universal Approximation</h2>
+    <p><strong>Cybenko (1989):</strong> 1 hidden layer + sigmoid activations can approximate any continuous function given enough hidden units.</p>
+    <p style="margin-top:6px;"><strong>Deep vs wide:</strong> deep networks (more layers) easier to train in practice than very wide shallow ones.</p>
+    <p style="margin-top:6px;"><strong>Tuning hidden units:</strong> genetic algorithms, or pruning (remove low-weight connections → retrain).</p>
+  </div>
+</div>
+
+<div class="card hot" style="margin-bottom:10px;">
+  <h2>Backpropagation — The Math</h2>
+  <div class="grid2">
+    <div>
+<code>Output layer delta:
+  δᵢ = (Tᵢ − Oᵢ) · g′(inᵢ)
+  Tᵢ = target, Oᵢ = actual output
+  g′ = derivative of activation function
+
+Hidden layer delta:
+  δⱼ = g′(inⱼ) · Σᵢ Wⱼᵢ δᵢ
+  No direct target → borrow from downstream
+
+Weight update:
+  Wᵢⱼ ← Wᵢⱼ + α · δᵢ · xⱼ
+  α = learning rate</code>
+    </div>
+    <div>
+      <h3>Key differences</h3>
+      <p><strong>Output delta:</strong> uses (T−O) directly — we know what the target should be.</p>
+      <p style="margin-top:6px;"><strong>Hidden delta:</strong> no target — uses weighted sum of all downstream deltas. Error flows backward via chain rule.</p>
+      <h3>Weight adjustment rules (exam question type)</h3>
+      <ul>
+        <li>Output too HIGH → need to decrease weighted sum → <strong>decrease weights on active inputs</strong> (xᵢ=1)</li>
+        <li>Inactive inputs (xᵢ=0) → <strong>stay the same</strong> (they contributed nothing)</li>
+        <li>Output too LOW → <strong>increase weights on active inputs</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card med">
+  <h2>Hopfield Networks (1982)</h2>
+  <div class="grid2">
+    <div>
+      <h3>Properties</h3>
+      <ul>
+        <li><strong>Recurrent</strong> — neurons connect back to each other</li>
+        <li><strong>Symmetric weights:</strong> wᵢⱼ = wⱼᵢ (no self-connections)</li>
+        <li><strong>Asynchronous updates</strong> — one neuron at a time</li>
+        <li><strong>Binary ±1</strong> outputs</li>
+      </ul>
+      <h3>Energy function</h3>
+<code>E = −½ Σᵢⱼ wᵢⱼ sᵢ sⱼ + Σᵢ sᵢ θᵢ
+ΔE ≤ 0 on every update → always converges</code>
+    </div>
+    <div>
+      <h3>Use: Associative Memory</h3>
+      <p>Store patterns as local energy minima. Present noisy/partial input → network converges to nearest stored pattern (pattern completion).</p>
+      <h3>Limitations</h3>
+      <ul>
+        <li><strong>Anti-patterns</strong> also stored (inverted versions)</li>
+        <li><strong>Capacity:</strong> unstable beyond ~<strong>0.14N</strong> patterns (N = # neurons)</li>
+        <li>Works only with <strong>uncorrelated</strong> patterns</li>
+        <li><strong>Spurious minima</strong> emerge with many stored patterns</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:10px;">
+  <h2>Quick Comparison Table</h2>
+  <table>
+    <tr><th>Model</th><th>Type</th><th>Learning</th><th>Key limitation</th></tr>
+    <tr><td>McCulloch-Pitts</td><td>Abstract, binary</td><td>No learning (fixed weights)</td><td>Not biologically realistic</td></tr>
+    <tr><td>Single-layer perceptron</td><td>Feedforward</td><td>Perceptron rule</td><td>Linear boundary only — fails XOR</td></tr>
+    <tr><td>MLP</td><td>Feedforward, layered</td><td>Backpropagation</td><td>Local minima, vanishing gradient</td></tr>
+    <tr><td>Hopfield network</td><td>Recurrent</td><td>Hebbian weight setting</td><td>0.14N capacity, stores anti-patterns</td></tr>
+  </table>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 13: CNNs -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s13">
+<div class="session-header"><span>SESSION 13 — Convolutional Neural Networks (CNNs)</span><span>MEDIUM PRIORITY</span></div>
+<div class="session-body">
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card med">
+    <h2>Classical CV vs Deep Learning</h2>
+    <p><strong>Classical:</strong> Image → Manual features (SIFT, HoG, SURF) → ML classifier → Output</p>
+    <p style="margin-top:5px;"><strong>Deep Learning:</strong> Image → Deep NN (auto features + classify) → Output</p>
+    <div class="alert alert-b" style="margin-top:6px;">Key insight: DL learns features automatically from data. No hand-engineering. Same method generalizes across domains.</div>
+    <h3>ILSVRC Results (memorize)</h3>
+    <table>
+      <tr><th>Year</th><th>Method</th><th>Top-5 Error</th></tr>
+      <tr><td>Pre-2012</td><td>Classical CV (manual features)</td><td>26.2%</td></tr>
+      <tr><td>2012</td><td>AlexNet (first CNN)</td><td>16.4% (~10pt jump)</td></tr>
+      <tr><td>2013</td><td>All top entries used CNNs</td><td>11.2%</td></tr>
+    </table>
+  </div>
+  <div class="card med">
+    <h2>CNN — 3 Core Ideas (LeCun 1998)</h2>
+    <ol style="padding-left:14px;font-size:12px;">
+      <li><strong>Local receptive fields:</strong> each neuron sees only a small local patch, not the full image</li>
+      <li><strong>Shared weights:</strong> one filter slides across all positions → dramatically fewer parameters</li>
+      <li><strong>Spatial subsampling (pooling):</strong> reduces spatial size, builds translation invariance</li>
+    </ol>
+    <h3>CNN Layer Stack</h3>
+    <p style="font-size:11px;">Input → [Conv+ReLU → Pool] × N → FC layers → Softmax</p>
+    <p style="font-size:11px;margin-top:4px;color:#888;">Feature extraction = conv+pool layers. Classification = FC layers.</p>
+    <h3>AlexNet (2012)</h3>
+    <p style="font-size:11px;">5 conv layers · 3 FC layers · <strong>650K neurons</strong> · <strong>60M weights</strong>. Introduced ReLU, dropout, GPU training.</p>
+  </div>
+</div>
+
+<div class="card med" style="margin-bottom:10px;">
+  <h2>Key Architectures</h2>
+  <table>
+    <tr><th>Architecture</th><th>Key idea</th><th>Notable detail</th></tr>
+    <tr><td><strong>AlexNet</strong></td><td>First CNN to dominate ILSVRC (2012)</td><td>ReLU activations, dropout regularization, GPU training</td></tr>
+    <tr><td><strong>VGGNet</strong></td><td>Very deep (16–19 layers), uniform 3×3 filters</td><td>Simple modular architecture; strong baseline</td></tr>
+    <tr><td><strong>GoogLeNet</strong></td><td>Inception modules: parallel 1×1, 3×3, 5×5 filters + pooling, concatenated</td><td>Efficient and deep; multiple scales per layer</td></tr>
+    <tr><td><strong>ResNet</strong></td><td>Skip connections: output = F(x) + x</td><td>Solves degradation — gradient flows through skip path; 100+ layers possible</td></tr>
+    <tr><td><strong>YOLO</strong></td><td>Single-pass real-time object detection</td><td>S×S grid, each cell predicts boxes + class probs in one forward pass</td></tr>
+    <tr><td><strong>Fast R-CNN</strong></td><td>Compute feature map once; RoI pooling per region</td><td>More efficient than original R-CNN</td></tr>
+    <tr><td><strong>VAE</strong></td><td>Encoder → latent distribution (μ+σ); Decoder reconstructs</td><td>Generative model; unsupervised</td></tr>
+  </table>
+  <div class="alert alert-b" style="margin-top:6px;"><strong>ResNet key formula:</strong> output = F(x) + x. If optimal ≈ identity, easier to push F(x)→0 than learn identity directly. Prevents vanishing gradient in very deep networks.</div>
+</div>
+
+<div class="grid2">
+  <div class="card low">
+    <h2>Deep Learning Taxonomy</h2>
+    <p><strong>Supervised:</strong> CNN (LeCun), RNN (Schmidhuber)</p>
+    <p style="margin-top:4px;"><strong>Unsupervised:</strong> Deep Belief Nets (Hinton), Stacked/Sparse Autoencoders (Bengio, LeCun, Ng), VAE</p>
+    <p style="margin-top:4px;color:#888;font-size:11px;">CNNs = supervised. VAEs = unsupervised generative. ResNet/VGG/YOLO = supervised.</p>
+  </div>
+  <div class="card low">
+    <h2>CNN Applications Beyond Classification</h2>
+    <ul>
+      <li><strong>Object detection:</strong> Fast R-CNN, YOLO, SSD</li>
+      <li><strong>Segmentation:</strong> SegNet, FCN (label every pixel)</li>
+      <li><strong>Speech:</strong> Deep Speech 2 (conv + RNN)</li>
+      <li><strong>Seq-to-seq:</strong> Neural translation + attention</li>
+      <li><strong>Audio generation:</strong> WaveNet (dilated causal conv)</li>
+      <li><strong>Reinforcement learning:</strong> DQN — Atari from raw pixels</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SESSION 14-15: Transformers -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="s14">
+<div class="session-header"><span>SESSIONS 14–15 — Transformers &amp; Applications</span><span>MEDIUM PRIORITY</span></div>
+<div class="session-body">
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card med">
+    <h2>Tokenization &amp; Embeddings</h2>
+    <p><strong>Tokenization:</strong> split text into chunks → assign integer IDs.</p>
+    <p style="margin-top:5px;"><strong>Special tokens:</strong> [CLS] = start of sequence, [SEP] = separator, [PAD] = padding to equal length.</p>
+    <p style="margin-top:5px;"><strong>Embeddings:</strong> map token IDs to high-dimensional vectors. Similar meanings → nearby vectors in embedding space.</p>
+    <p style="margin-top:5px;"><strong>Arithmetic works:</strong> emb(Paris) − emb(France) + emb(Italy) ≈ emb(Rome)</p>
+    <p style="margin-top:5px;"><strong>Positional encoding:</strong> added to embeddings because attention is permutation-invariant (doesn't know word order otherwise).</p>
+  </div>
+  <div class="card med">
+    <h2>Attention Mechanism — Q, K, V</h2>
+    <table>
+      <tr><th>Symbol</th><th>Role</th><th>Analogy</th></tr>
+      <tr><td><strong>Q (Query)</strong></td><td>"What am I looking for?"</td><td>Search query</td></tr>
+      <tr><td><strong>K (Key)</strong></td><td>"What do I represent?"</td><td>Index card label</td></tr>
+      <tr><td><strong>V (Value)</strong></td><td>Actual content contributed</td><td>Index card content</td></tr>
+    </table>
+<code style="margin-top:8px;">Attention(Q,K,V) = softmax(QKᵀ / √d) · V
+
+Divide by √d: prevents large dot products
+              before softmax (scale stabilizer)
+Output: weighted blend of values
+        weights = query-key similarity</code>
+  </div>
+</div>
+
+<div class="grid2" style="margin-bottom:10px;">
+  <div class="card med">
+    <h2>Attention Variants</h2>
+    <table>
+      <tr><th>Type</th><th>Q, K, V source</th><th>Used in</th></tr>
+      <tr><td><strong>Self-attention</strong></td><td>All from same sequence</td><td>Encoder &amp; decoder</td></tr>
+      <tr><td><strong>Cross-attention</strong></td><td>Q from decoder, K/V from encoder</td><td>Decoder only</td></tr>
+      <tr><td><strong>Masked/causal</strong></td><td>Future tokens set to −∞ before softmax</td><td>Decoder (prevents cheating)</td></tr>
+      <tr><td><strong>Multi-head</strong></td><td>h parallel heads, different weights, concatenated</td><td>All transformers</td></tr>
+    </table>
+    <div class="alert alert-o" style="margin-top:6px;"><strong>Complexity:</strong> O(n²) in sequence length — attention matrix is n×n. Main bottleneck for long sequences.</div>
+  </div>
+  <div class="card med">
+    <h2>Encoder-Decoder Architecture</h2>
+    <p><strong>Encoder:</strong> Embedding → Positional encoding → Self-attention → Feed-forward. Compresses input to hidden state. Used in BERT-style models.</p>
+    <p style="margin-top:6px;"><strong>Decoder:</strong> Same as encoder + masked self-attention (can't see future tokens) + cross-attention (attends to encoder output). Generates output token by token. Used in GPT, translation.</p>
+    <div class="alert alert-r" style="margin-top:6px;"><strong>LLMs = next-token prediction only.</strong> Not thinking, not reasoning, not feeling. Big statistical machines predicting the next token.</div>
+  </div>
+</div>
+
+<div class="grid3">
+  <div class="card low">
+    <h2>Vision Transformers (ViT)</h2>
+    <p>Split image into <strong>16×16 patches</strong>, treat each patch as a "token", apply transformer.</p>
+    <p style="margin-top:5px;">Competitive with CNNs given enough data. Attention is visualizable on image regions — can see what the model "looks at".</p>
+  </div>
+  <div class="card low">
+    <h2>CLIP (Multimodal)</h2>
+    <p>Train image encoder + text encoder jointly with <strong>contrastive loss</strong>. Matching image-caption pairs get similar embeddings.</p>
+    <p style="margin-top:5px;"><strong>Zero-shot classification:</strong> embed class names as text, find nearest image embedding. No task-specific training needed.</p>
+    <p style="margin-top:5px;">Generalizes to drawings, clipart, new datasets. Used in YOLO-World for open-vocabulary detection.</p>
+  </div>
+  <div class="card low">
+    <h2>Fine-tuning &amp; Audio</h2>
+    <p><strong>Fine-tuning:</strong> take pretrained model, continue training on smaller domain-specific dataset. Transfer learning.</p>
+    <p style="margin-top:5px;"><strong>Audio transformers:</strong> use spectrograms instead of images. Encoder-only or encoder-decoder. Can be augmented with CNN.</p>
+    <p style="margin-top:5px;"><strong>LLaVA:</strong> multimodal model combining vision encoder with LLM — can answer questions about images.</p>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- FOL TRANSLATION -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="fol">
+<div class="session-header"><span>FOL TRANSLATION — Assumed on Every Exam</span><span>⚠ ALWAYS TESTED</span></div>
+<div class="session-body">
+
+<div class="card hot" style="margin-bottom:10px;">
+  <h2>The Two Golden Rules</h2>
+  <div class="grid2">
+    <div>
+<code>∀ pairs with ⇒
+"All X that are A, do B"
+∀x A(x) ⇒ B(x)
+
+WRONG: ∀x A(x) ∧ B(x)
+  = "everything is both A and B"</code>
+    </div>
+    <div>
+<code>∃ pairs with ∧
+"Some X that is A, also does B"
+∃x A(x) ∧ B(x)
+
+WRONG: ∃x A(x) ⇒ B(x)
+  = true even if nothing is A!</code>
+    </div>
+  </div>
+</div>
+
+<div class="card hot" style="margin-bottom:10px;">
+  <h2>Common Patterns — Memorize These</h2>
+  <table>
+    <tr><th>English</th><th>FOL</th><th>Note</th></tr>
+    <tr><td>All dogs are mammals</td><td>∀x Dog(x) ⇒ Mammal(x)</td><td>∀ + ⇒</td></tr>
+    <tr><td>Some cats are friendly</td><td>∃x Cat(x) ∧ Friendly(x)</td><td>∃ + ∧</td></tr>
+    <tr><td>No cat likes water</td><td>∀x Cat(x) ⇒ ¬Likes(x,Water)</td><td>negate consequent</td></tr>
+    <tr><td>Only students pass</td><td>∀x Passes(x) ⇒ Student(x)</td><td>"only" reverses direction!</td></tr>
+    <tr><td>Everyone loves someone</td><td>∀x ∃y Loves(x,y)</td><td>∀ outside, ∃ inside</td></tr>
+    <tr><td>Someone is loved by everyone</td><td>∃y ∀x Loves(x,y)</td><td>∃ outside, ∀ inside — DIFFERENT!</td></tr>
+    <tr><td>Nobody likes a liar</td><td>∀x ∀y Liar(x) ⇒ ¬Likes(y,x)</td><td>double universal</td></tr>
+    <tr><td>Everyone who loves all animals is loved by someone</td><td>∀x (∀y Animal(y)⇒Loves(x,y)) → ∃z Loves(z,x)</td><td>nested quantifiers</td></tr>
+    <tr><td>At least two cats named Tuna</td><td>∃x∃y Cat(x)∧Named(x,Tuna)∧Cat(y)∧Named(y,Tuna)∧x≠y</td><td>must assert x≠y</td></tr>
+    <tr><td>Exactly three exams</td><td>∃x∃y∃z (Exam(x)∧Exam(y)∧Exam(z)∧x≠y∧y≠z∧x≠z) ∧ ∀w Exam(w)→(w=x∨w=y∨w=z)</td><td>at least 3 AND at most 3</td></tr>
+  </table>
+</div>
+
+<div class="grid2">
+  <div class="card hot">
+    <h2>Quantifier Scope Trap</h2>
+<code>∀x∃y Loves(x,y)
+= "Everyone loves SOMEONE"
+  (different person for each x)
+
+∃y∀x Loves(x,y)
+= "There is SOMEONE loved by everyone"
+  (same person for all x)
+
+These are NOT logically equivalent!</code>
+    <div class="alert alert-r">This appears on almost every exam. The order of ∀ and ∃ fundamentally changes the meaning.</div>
+  </div>
+  <div class="card hot">
+    <h2>FOL → English Tips</h2>
+    <ul>
+      <li>Read quantifiers left to right</li>
+      <li>∀x(...) → "for every x..."</li>
+      <li>∃x(...) → "there exists an x such that..."</li>
+      <li>⇒ → "if...then" or "implies"</li>
+      <li>∧ → "and"</li>
+      <li>¬ → "not" or "it is not the case that"</li>
+      <li>↔ → "if and only if"</li>
+    </ul>
+    <h3>Example</h3>
+    <p style="font-size:11px;font-family:monospace;background:#f4f4f0;padding:5px;border-radius:3px;margin-top:5px;">∃k ∀p Kitten(k)∧Person(p)⇒Loves(k,p)</p>
+    <p style="font-size:12px;margin-top:4px;">→ "There exists a kitten that loves every person."</p>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- T/F TRAPS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="session-block" id="tf">
+<div class="session-header"><span>T/F TRAPS — Recurring Across All 3 Past Exams</span><span>10% OF EXAM, NO PARTIAL CREDIT</span></div>
+<div class="session-body">
+
+<div class="grid2">
+<div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">Backward Chaining acts like breadth-first search at top level with depth-first sub-searches.<div class="tf-why">This describes FORWARD chaining. Backward = depth-first throughout.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">KB entails α iff α is true in SOME worlds where KB is true.<div class="tf-why">Must be ALL worlds. "Some worlds" = consistency, not entailment.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">A↔B is the same as (A⇒B) ∨ (B⇒A).<div class="tf-why">A↔B = (A⇒B) ∧ (B⇒A). The disjunction version is a tautology (always true).</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">ID3 is a bottom-up algorithm working up to the root.<div class="tf-why">ID3 is TOP-DOWN — starts at root, selects best attribute, recurses downward.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">Prolog uses resolution inference.<div class="tf-why">Prolog uses backward chaining with GMP on Horn clauses. Not full resolution.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">In planning, demotion puts the clobberer AFTER the threatened causal link.<div class="tf-why">Demotion = put clobberer BEFORE A (start of link). Promotion = AFTER B (end).</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">∀x in(cs561,x) ∧ smart(x) means "everyone in cs561 is smart".<div class="tf-why">Says "everything is both in cs561 AND smart." Correct: ∀x in(cs561,x) ⇒ smart(x).</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">ANNs fully simulate how the human brain works.<div class="tf-why">Highly abstract models. Ignore neurotransmitters, spiking dynamics, biophysics.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">FETCH and STORE always take at least O(n) time on n-element KB.<div class="tf-why">Indexed KBs can achieve O(1) or O(log n).</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-f">F</span><div class="tf-q">A planner should always order every step.<div class="tf-why">POP leaves steps unordered unless forced — least commitment principle.</div></div></div>
+</div>
+<div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">For FOL, any sentence entailed by another set can be proved from that set.<div class="tf-why">Gödel's completeness theorem (1930). Resolution is the complete procedure.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">Entailment in FOL is only semi-decidable — can't always prove a sentence is NOT entailed.<div class="tf-why">If something IS entailed you can prove it. NOT entailed = may loop forever.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">FOL's ontological commitments: objects, relations, functions, and properties.<div class="tf-why">Definition of FOL — memorize exactly.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">Propositional logic operators retain their meanings in FOL.<div class="tf-why">FOL extends propositional logic — all PL operators still work.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">Linearization may derive multiple total order plans from one partial order plan.<div class="tf-why">Unordered steps can be linearized in many consistent orderings.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">SVM aims to maximize the margin between classes of data.<div class="tf-why">Core definition of SVM.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">In fuzzy logic, OR is like MAX.<div class="tf-why">Fuzzy OR = max. Fuzzy AND = min. Fuzzy NOT = 1 − x.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">Backward chaining benefits from being directed toward one statement or question.<div class="tf-why">Core advantage over forward chaining — only follows relevant chains.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">∀x∃y P(x,y) can in some cases be equivalent to ∃y∀x P(x,y).<div class="tf-why">Generally not equal, but "in some cases" makes this true for specific predicates P.</div></div></div>
+<div class="tf-row"><span>#</span><span class="tf-t">T</span><div class="tf-q">Effect axioms describe changes due to action.<div class="tf-why">Situation calculus: effect axioms say what changes when an action is performed.</div></div></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="text-align:center;font-size:10px;color:#ccc;margin-top:30px;border-top:1px solid #eee;padding-top:10px;">
+  CS 561 Spring 2026 · Midterm 2 Cheat Sheet · Sessions 9–15 · FOL translation assumed throughout · Fuzzy logic NOT covered
+</div>
+
+</body>
+</html>
